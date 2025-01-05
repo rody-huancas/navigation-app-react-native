@@ -1,9 +1,10 @@
-import {Text, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
-import {useNavigation} from '@react-navigation/native';
+import { Text, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-import {globalStyles} from '../../theme/theme';
-import {PrimaryButton} from '../../components/shared/PrimaryButton';
+import { globalStyles } from '../../theme/theme';
+import { PrimaryButton } from '../../components/shared/PrimaryButton';
+import { RootStackParams } from '../../routes/StackNavigator';
 
 const products = [
   {id: 1, name: 'Product 1'},
@@ -15,7 +16,7 @@ const products = [
 ];
 
 export const ProductsScreen = () => {
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation<NavigationProp<RootStackParams>>();
 
   return (
     <View style={globalStyles.container}>
@@ -25,7 +26,7 @@ export const ProductsScreen = () => {
         data={products}
         renderItem={({item}) => (
           <PrimaryButton
-            onPress={() => navigate('Product' as never)}
+            onPress={() => navigate('Product', { id: item.id, name: item.name })}
             label={item.name}
           />
         )}
@@ -34,10 +35,7 @@ export const ProductsScreen = () => {
 
       <Text style={{marginBottom: 10, fontSize: 30}}>Ajustes</Text>
 
-      <PrimaryButton
-        label="Ajustes"
-        onPress={() => navigate('Settings' as never)}
-      />
+      <PrimaryButton label="Ajustes" onPress={() => navigate('Settings')}/>
     </View>
   );
 };
